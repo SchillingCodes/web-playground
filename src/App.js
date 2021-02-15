@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import {signUpWithEmailPassword, signOut} from './email.js';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
           Learn React
         </a>
       </header>
+      <button onClick={signUpWithEmailPassword}>test</button>
+      <button onClick={signOut}>Sign Out</button>
     </div>
   );
 }
