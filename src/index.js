@@ -2,14 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import LoginForm from './LoginForm';
 import reportWebVitals from './reportWebVitals';
 import {FirebaseProvider} from './FirebaseProvider.js';
 
 ReactDOM.render(
   <FirebaseProvider>
     <App />
-    <LoginForm />
   </FirebaseProvider>,
   document.getElementById('root')
 );
