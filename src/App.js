@@ -4,6 +4,8 @@ import './App.css';
 import {signUpWithEmailPassword, signOut} from './email.js';
 import useFirebaseAuthentication from './useFirebaseAuthentication.js';
 import {FirebaseContext} from './FirebaseProvider.js';
+import CreateUserForm from './CreateUserForm';
+import LoginForm from './LoginForm';
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import firebase from "firebase/app";
@@ -38,8 +40,9 @@ function App(props) {
         <p>Yoyo</p>
         Hello, {getUid(authUser)}
       </header>
-      <button onClick={signUpWithEmailPassword}>test</button>
       <button onClick={signOut}>Sign Out</button>
+      <CreateUserForm />
+      <LoginForm /> 
     </div>
   );
 }

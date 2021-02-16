@@ -1,5 +1,5 @@
 import React from 'react';
-import {signIn} from './email.js';
+import {signUpWithEmailPassword} from './email.js';
 
 class NameForm extends React.Component {
     constructor(props) {
@@ -25,7 +25,7 @@ class NameForm extends React.Component {
   
     handleSubmit(event) {
         //alert('A email was submitted: ' + this.state.email + ' with password: ' + this.state.password);
-        signIn(this.state.email, this.state.password);
+        signUpWithEmailPassword(this.state.email, this.state.password);
         event.preventDefault();
     }
   
@@ -40,7 +40,7 @@ class NameForm extends React.Component {
             Password:
             <input name="password" type="password" value={this.state.password} onChange={this.handleChange} />
           </label>
-          <input type="submit" value="Login" />
+          <input type="submit" value="Sign Up" />
         </form>
       );
     }
