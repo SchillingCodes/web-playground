@@ -27,6 +27,10 @@ class NameForm extends React.Component {
         //alert('A email was submitted: ' + this.state.email + ' with password: ' + this.state.password);
         signUpWithEmailPassword(this.state.email, this.state.password);
         event.preventDefault();
+        this.setState({
+          email: '',
+          password: ''
+        })
     }
   
     render() {

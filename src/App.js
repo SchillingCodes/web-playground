@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useContext, createContext} from 'react';
-import logo from './logo.svg';
+import React, {useContext} from 'react';
 import './App.css';
-import {signUpWithEmailPassword, signOut} from './email.js';
+import {signOut} from './email.js';
 import useFirebaseAuthentication from './useFirebaseAuthentication.js';
 import {FirebaseContext} from './FirebaseProvider.js';
 import CreateUserForm from './CreateUserForm';
