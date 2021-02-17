@@ -1,7 +1,7 @@
 import React from 'react';
 import {signIn} from './email.js';
 
-class NameForm extends React.Component {
+class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,20 +34,23 @@ class NameForm extends React.Component {
     }
   
     render() {
-      return (
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Email:
-            <input name="email" type="email" value={this.state.email} onChange={this.handleChange} />
-          </label>
-          <label>
-            Password:
-            <input name="password" type="password" value={this.state.password} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Login" />
-        </form>
-      );
+      if (!this.props.user) {
+        return (
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Email:
+              <input name="email" type="email" value={this.state.email} onChange={this.handleChange} />
+            </label>
+            <label>
+              Password:
+              <input name="password" type="password" value={this.state.password} onChange={this.handleChange} />
+            </label>
+            <input type="submit" value="Login" />
+          </form>
+        );
+      }
+      return null;
     }
   }
 
-  export default NameForm;
+  export default LoginForm;

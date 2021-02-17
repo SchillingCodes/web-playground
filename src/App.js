@@ -3,8 +3,9 @@ import './App.css';
 import {signOut} from './email.js';
 import useFirebaseAuthentication from './useFirebaseAuthentication.js';
 import {FirebaseContext} from './FirebaseProvider.js';
-import CreateUserForm from './CreateUserForm';
+import CreateUserForm from './RegisterForm';
 import LoginForm from './LoginForm';
+import Profile from './Profile';
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import firebase from "firebase/app";
@@ -12,6 +13,7 @@ import firebase from "firebase/app";
 // import * as firebase from "firebase/app"
 
 import "firebase/auth";
+import "firebase/firestore";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -25,9 +27,11 @@ const firebaseConfig = {
 };
 
 // Intialize Firebase if it has not been previously initialized
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+var db = firebase.firestore();
 
 function App(props) {
   const firebase = useContext(FirebaseContext);
@@ -39,9 +43,10 @@ function App(props) {
         <p>Yoyo</p>
         Hello, {getUid(authUser)}
       </header>
-      <button onClick={signOut}>Sign Out</button>
-      <CreateUserForm />
-      <LoginForm /> 
+      {authUser && <button onClick={signOut}>Sign Out</button>}
+      <CreateUserForm user={authUser}/>
+      <LoginForm user={authUser}/>
+      <Profile user={authUser} />
     </div>
   );
 }
