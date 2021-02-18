@@ -13,7 +13,6 @@ function signUpWithEmailPassword() {
         // Signed in 
         var user = userCredential.user;
         // ...
-        alert("user created");
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -27,7 +26,6 @@ function signUpWithEmailPassword() {
 function signOut() {
     firebase.auth().signOut().then(() => {
         // Sign-out successful.
-        alert("you signed out.");
       }).catch((error) => {
         // An error happened.
         console.log("error");
@@ -40,7 +38,6 @@ function signIn(email, password) {
         // Signed in
         var user = userCredential.user;
         // ...
-        alert("signed in!");
     })
     .catch((error) => {
         var errorCode = error.code;

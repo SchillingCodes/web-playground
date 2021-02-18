@@ -41,19 +41,13 @@ function App(props) {
     <div className="App">
       <header className="App-header">
         <p>Yoyo</p>
-        Hello, {getUid(authUser)}
       </header>
       {authUser && <button onClick={signOut}>Sign Out</button>}
       <CreateUserForm user={authUser}/>
       <LoginForm user={authUser}/>
-      <Profile user={authUser} />
+      <Profile user={authUser} db={db}/>
     </div>
   );
-}
-
-function getUid(authUser) {
-  if (authUser) return authUser.uid;
-  else return "Stranger";
 }
 
 export default App;
