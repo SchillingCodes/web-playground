@@ -5,25 +5,27 @@ class Profile extends React.Component {
         super(props);
 
         this.state = {
+            doc: this.props.doc,
+            docSet: false,
             name: ''
         };
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.deleteProfile = this.deleteProfile.bind(this);
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.user && this.props.user !== prevProps.user) {
             var docRef = this.props.db.collection("users").doc(this.props.user.uid)
-                                    .collection("profiles").doc("profile1");
+                                    .collection("profiles").doc(this.state.doc);
 
             docRef.get().then((doc) => {
                 if (doc.exists) {
-                    console.log("Document data:", doc.data());
                     this.setState({name: doc.get("name")});
+                    this.setState({docSet: true});
                 } else {
                     // doc.data() will be undefined in this case
-                    console.log("No such document!");
                 }
             }).catch((error) => {
                 console.log("Error getting document:", error);
@@ -44,11 +46,11 @@ class Profile extends React.Component {
     handleSubmit(event) {
         // Add a new document in collection "cities"
         this.props.db.collection("users").doc(this.props.user.uid)
-                     .collection("profiles").doc("profile1").set({
+                     .collection("profiles").doc(this.state.doc).set({
             name: this.state.name
         })
         .then(() => {
-            console.log("Document written");
+            this.setState({docSet: true});
         })
         .catch((error) => {
             console.error("Error writing document: ", error);
@@ -56,10 +58,22 @@ class Profile extends React.Component {
         });
         event.preventDefault();
     }
+
+    deleteProfile(event) {
+        this.props.db.collection("users").doc(this.props.user.uid)
+                     .collection("profiles").doc(this.state.doc).delete()
+        .then(() => {
+            // deleted
+            this.setState({docSet: false});
+            this.setState({name: ''});
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        })
+    }
   
     render() {
         if (this.props.user) {
-            if (this.state.name === '') {
+            if (!this.state.docSet) {
                 return (
                     <form onSubmit={this.handleSubmit}>
                     <label>
@@ -72,7 +86,10 @@ class Profile extends React.Component {
             }
             else {
                 return (
-                    <p>{this.state.name}</p>
+                    <div>
+                        <p>{this.state.name}</p>
+                        <button onClick={this.deleteProfile}>Delete</button>
+                    </div>
                 )
             }
         }

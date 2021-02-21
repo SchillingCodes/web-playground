@@ -45,7 +45,9 @@ function App(props) {
       {authUser && <button onClick={signOut}>Sign Out</button>}
       <CreateUserForm user={authUser}/>
       <LoginForm user={authUser}/>
-      <Profile user={authUser} db={db}/>
+      <Profile user={authUser} db={db} doc="profile1"/>
+      <Profile user={authUser} db={db} doc="profile2"/>
+      <Profile user={authUser} db={db} doc="profile3"/>
     </div>
   );
 }
