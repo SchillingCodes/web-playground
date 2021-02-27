@@ -3,7 +3,7 @@ import './App.css';
 import {signOut} from './email.js';
 import useFirebaseAuthentication from './useFirebaseAuthentication.js';
 import {FirebaseContext} from './FirebaseProvider.js';
-import CreateUserForm from './RegisterForm';
+import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
 import Profile from './Profile';
 
@@ -43,11 +43,11 @@ function App(props) {
         <p>Yoyo</p>
       </header>
       {authUser && <button onClick={signOut}>Sign Out</button>}
-      <CreateUserForm user={authUser}/>
-      <LoginForm user={authUser}/>
-      <Profile user={authUser} db={db} doc="profile1"/>
-      <Profile user={authUser} db={db} doc="profile2"/>
-      <Profile user={authUser} db={db} doc="profile3"/>
+      {!authUser && <RegisterForm/>}
+      {!authUser && <LoginForm/>}
+      {authUser && <Profile user={authUser} db={db} doc="profile1"/>}
+      {authUser && <Profile user={authUser} db={db} doc="profile2"/>}
+      {authUser && <Profile user={authUser} db={db} doc="profile3"/>}
     </div>
   );
 }
