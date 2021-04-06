@@ -17,3 +17,5 @@ Password: Test123!
 # Purpose
 
 The purpose of this project is to practice building a React application and using Firebase services to manage users and their data.
+
+# The website is live! https://web-playground-41e27.web.app/
