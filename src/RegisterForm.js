@@ -31,7 +31,7 @@ function RegisterForm() {
           Password:
           <input name="password" type="password" value={values.password} onChange={handlePasswordChange} />
         </label>
-        <input type="submit" value="Login" />
+        <input type="submit" value="Register" />
       </form>
     </div>
   );

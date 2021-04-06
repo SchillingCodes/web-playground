@@ -1,9 +1,6 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 
 const Profile = props => {
-
-    var docRef = props.db.collection("users").doc(props.user.uid)
-                                    .collection("profiles").doc(props.doc);
 
     const [values, setValues] = useState({
         doc: props.doc,
@@ -11,20 +8,28 @@ const Profile = props => {
         name: ''
     })
 
-    useEffect(() => {
+    const [isBusy, setBusy] = useState(true);
 
-        var docRef = props.db.collection("users").doc(props.user.uid)
-                                .collection("profiles").doc(values.doc);
-        docRef.get().then((doc) => {
-            if (doc.exists) {
-                setValues({...values, docSet: true, name: doc.get("name")});
-            } else {
-                // doc.data() will be undefined in this case
-            }
-        }).catch((error) => {
-            console.log("Error getting document: ", error);
-        });
-        
+    useEffect(() => {
+        let isCancelled = false;
+        if (props.user!=null && props.db!=null && !isCancelled) {
+            var docRef = props.db.collection("users").doc(props.user.uid)
+                                    .collection("profiles").doc(values.doc);
+            docRef.get().then((doc) => {
+                setBusy(false);
+                if (doc.exists) {
+                    setValues({...values, docSet: true, name: doc.get("name")});
+                } else {
+                    // doc.data() will be undefined in this case
+                }
+            }).catch((error) => {
+                console.log("Error getting document: ", error);
+            });
+
+            return () => {
+                isCancelled = true;
+            };
+        }
     }, [props.user]);
 
     useEffect(() => {
@@ -46,7 +51,6 @@ const Profile = props => {
         })
         .catch((error) => {
             console.error("Error writing document: ", error);
-            console.log(props.user.uid);
         });
     }
 
@@ -63,7 +67,10 @@ const Profile = props => {
   
     return (
         <div>
-            {!values.docSet &&
+            {isBusy && 
+                <p>Loading...</p>
+            }
+            {(!values.docSet && !isBusy) &&
                 <form onSubmit={handleSubmit}>
                     <label>
                         Name:
@@ -72,9 +79,9 @@ const Profile = props => {
                     <input type="submit" value="Create" />
                 </form>
             }
-            {values.docSet &&
+            {(values.docSet && !isBusy) &&
                 <div>
-                    <p>{values.name}</p>
+                    <button onClick={()=>props.onProfileClick(values.name)}>{values.name}</button>
                     <button onClick={deleteProfile}>Delete</button>
                 </div>
             }

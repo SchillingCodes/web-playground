@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import './App.css';
 import {signOut} from './email.js';
 import useFirebaseAuthentication from './useFirebaseAuthentication.js';
@@ -36,18 +36,20 @@ var db = firebase.firestore();
 function App(props) {
   const firebase = useContext(FirebaseContext);
   const authUser = useFirebaseAuthentication(firebase);
+  const [profile, setProfile] = useState(null);
   
   return (
     <div className="App">
       <header className="App-header">
-        <p>Yoyo</p>
+        <p>Yoyo {profile}</p>
       </header>
-      {authUser && <button onClick={signOut}>Sign Out</button>}
-      {!authUser && <RegisterForm/>}
-      {!authUser && <LoginForm/>}
-      {authUser && <Profile user={authUser} db={db} doc="profile1"/>}
-      {authUser && <Profile user={authUser} db={db} doc="profile2"/>}
-      {authUser && <Profile user={authUser} db={db} doc="profile3"/>}
+      {authUser && profile!=null && <button onClick={() => {setProfile(null);}}>Change Profile</button>}
+      {authUser && <button onClick={() => {setProfile(null); signOut();}}>Sign Out</button>}
+      {!authUser && profile==null && <RegisterForm/>}
+      {!authUser && profile==null && <LoginForm/>}
+      {authUser && profile==null && <Profile user={authUser} db={db} doc="profile1" onProfileClick={setProfile}/>}
+      {authUser && profile==null && <Profile user={authUser} db={db} doc="profile2" onProfileClick={setProfile}/>}
+      {authUser && profile==null && <Profile user={authUser} db={db} doc="profile3" onProfileClick={setProfile}/>}
     </div>
   );
 }
