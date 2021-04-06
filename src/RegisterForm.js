@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {signIn} from './email.js';
+import {signUpWithEmailPassword} from './email.js';
 
-function LoginForm() {
+function RegisterForm() {
   const [values, setValues] = useState({
     email: '',
     password: ''
@@ -17,7 +17,7 @@ function LoginForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    signIn(values.email, values.password);
+    signUpWithEmailPassword(values.email, values.password);
   }
 
   return(
@@ -31,10 +31,10 @@ function LoginForm() {
           Password:
           <input name="password" type="password" value={values.password} onChange={handlePasswordChange} />
         </label>
-        <input type="submit" value="Login" />
+        <input type="submit" value="Register" />
       </form>
     </div>
   );
 }
 
-export default LoginForm;
+export default RegisterForm;

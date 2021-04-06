@@ -1,11 +1,11 @@
-import React, {useState, useEffect, useContext, createContext} from 'react';
-import logo from './logo.svg';
+import React, {useContext, useState, useEffect} from 'react';
 import './App.css';
-import {signUpWithEmailPassword, signOut} from './email.js';
+import {signOut} from './email.js';
 import useFirebaseAuthentication from './useFirebaseAuthentication.js';
 import {FirebaseContext} from './FirebaseProvider.js';
-import CreateUserForm from './CreateUserForm';
+import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
+import Profile from './Profile';
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import firebase from "firebase/app";
@@ -13,6 +13,7 @@ import firebase from "firebase/app";
 // import * as firebase from "firebase/app"
 
 import "firebase/auth";
+import "firebase/firestore";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -26,30 +27,31 @@ const firebaseConfig = {
 };
 
 // Intialize Firebase if it has not been previously initialized
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+var db = firebase.firestore();
 
 function App(props) {
   const firebase = useContext(FirebaseContext);
   const authUser = useFirebaseAuthentication(firebase);
+  const [profile, setProfile] = useState(null);
   
   return (
     <div className="App">
       <header className="App-header">
-        <p>Yoyo</p>
-        Hello, {getUid(authUser)}
+        <p>Yoyo {profile}</p>
       </header>
-      <button onClick={signOut}>Sign Out</button>
-      <CreateUserForm />
-      <LoginForm /> 
+      {authUser && profile!=null && <button onClick={() => {setProfile(null);}}>Change Profile</button>}
+      {authUser && <button onClick={() => {setProfile(null); signOut();}}>Sign Out</button>}
+      {!authUser && profile==null && <RegisterForm/>}
+      {!authUser && profile==null && <LoginForm/>}
+      {authUser && profile==null && <Profile user={authUser} db={db} doc="profile1" onProfileClick={setProfile}/>}
+      {authUser && profile==null && <Profile user={authUser} db={db} doc="profile2" onProfileClick={setProfile}/>}
+      {authUser && profile==null && <Profile user={authUser} db={db} doc="profile3" onProfileClick={setProfile}/>}
     </div>
   );
-}
-
-function getUid(authUser) {
-  if (authUser) return authUser.uid;
-  else return "Stranger";
 }
 
 export default App;
