@@ -6,7 +6,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This is a basic user management and profile management application using Firebase for these services. The following requirements are fulfilled by this application:
 - Each user can have up to 3 profiles
-- Profiles are named when created and are able to be deleted
+- Profiles are named when created
+- Profiles can be deleted
+- Users can "switch" between profiles
 - Clicking the profile name changes the screen text to include the profile name, essentially "logging in" that user to that profile
 - Users can register and login to the application
 
